@@ -12,7 +12,7 @@ reduce(operator.add,
               map(lambda x: x.value, coll)))
 ```
 
-For comprehensions/generator expressions makes it a bit better:
+And for comprehensions/generator expressions makes it a slightly better:
 
 ```python
 reduce(operator.add,
@@ -29,7 +29,7 @@ let's call it transformers and transformers factories:
 ```python
 transformer(coll) => result
 transformer_factory(*args) => transformer(coll) => result
-transformer_factory(*args, args) => result
+transformer_factory(*args, coll) => result
 ```
 
 In use:
@@ -51,3 +51,80 @@ t.into([t.map(lambda x: x.value),
 
 So `t.map`, `t.filter`, `t.zip`, `t.reduce` and `t.into` is a transformer factories.
 `t.into` is a special one, it can apply list of transformers to collection.
+
+I guess it's more readable than functions and more extensible than fluent interface.
+
+## Installation
+
+```bash
+pip install mcoll
+```
+
+## Usage
+
+Available transformations and transformation factories:
+
+`dict_values`, `flatten`, `merge`, `dict_items`, `map`, `nth`, `dict_keys`, `merge_with`, `reversed`, `zip_with`, `filter`, `into`, `slice`, `zip`, `reduce`.
+
+Use transformation factory:
+
+```python
+from mcoll import t
+
+transformation = t.map(lambda x: x ** 2)
+transformation(range(5))  # => [0, 1, 4, 9, 16] 
+```
+
+Use transformation:
+
+```python
+t.map(lambda x: x ** 2, range(5))  # => [0, 1, 4, 9, 16]
+t.flatten([[1, 2], [3, 4]])  # => [1, 2, 3, 4]
+```
+
+Creation transformation from list of transformations:
+
+```python
+transformation = t.into([t.map(lambda x: x ** 2),
+                         t.filter(lambda x: x % 2),
+                         t.reversed])
+transformation(range(5))  # => [9, 1]
+```
+
+Just apply list of transformations:
+
+```python
+t.into([t.dict_items,
+        t.flatten,
+        t.map(lambda x: x + 5),
+        t.filter(lambda x: x % 2),
+        t.reduce(lambda memo, x: memo + x)],
+        {9: 10, 11: 12, 13: 14})  # => 51
+```
+
+Transformation is just a function, so you easily can create your own:
+
+```python
+to_lower = lambda coll: [x.lower() for x in coll]
+t.into([t.dict_items,
+        t.flatten,
+        to_lower], {'A': 'B', 'C': 'D'})  # => ['c', 'd', 'a', 'b']
+```
+
+Transformation factory is a bit complex concept, but you can create it easyly with
+`trans` decorator:
+
+```python
+from mcoll.utils import trans
+
+@trans
+def inc_by(num, coll):
+    return [x + num for x in coll]
+    
+inc_by(10, [1, 2])  # => [11, 12]
+inc_by(5)([1, 2])  # => [6, 7]
+t.into([t.flatten,
+        inc_by(3)], [[1, 2], [3, 4]])  # => [4, 5, 6, 7]
+```
+
+## Licensed under MIT
