@@ -1,4 +1,4 @@
-# Modern API for Python collections
+# Modern API for Python collections [![Build Status](https://travis-ci.org/nvbn/mcoll.svg)](https://travis-ci.org/nvbn/mcoll)
 
 ## Rationale
 
