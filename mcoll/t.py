@@ -83,6 +83,11 @@ def _nth_sequence(num, coll):
 
 
 @trans
+def sorted(key, coll):
+    return builtins.sorted(coll, key=key)
+
+
+@trans
 def into(dest, coll):
     if isinstance(dest, Iterable):
         for t in dest:

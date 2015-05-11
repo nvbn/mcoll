@@ -105,3 +105,10 @@ def test_into():
            t.into(dict)((('a', 1), ('b', 2))) == {'a': 1, 'b': 2}
     assert t.into([dict], (('a', 1), ('b', 2))) == \
            t.into([dict])((('a', 1), ('b', 2))) == {'a': 1, 'b': 2}
+
+
+def test_sorted():
+    coll = [{'name': 'x'}, {'name': 'a'}]
+    assert _list_equal(t.sorted(lambda x: x['name'], coll),
+                       t.sorted(lambda x: x['name'])(coll),
+                       coll[::-1])
