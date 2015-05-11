@@ -22,6 +22,19 @@ dict_values = trans(lambda x: x.values(), True)
 dict_items = trans(lambda x: x.items(), True)
 
 
+@trans(no_arg=True)
+def reversed(coll):
+    try:
+        return builtins.reversed(coll)
+    except TypeError:
+        return reversed(list(coll))
+
+
+@reversed.register(list)
+def _reversed_list(coll):
+    return coll[::-1]
+
+
 @trans
 def reduce(fn, coll, initial=None):
     if initial is None:
