@@ -1,5 +1,12 @@
-from collections.abc import Iterable, Sequence
-import builtins
+try:
+    from collections.abc import Iterable, Sequence
+except ImportError:
+    from collections import Iterable, Sequence
+try:
+    import builtins
+except ImportError:
+    import __builtin__ as builtins
+
 import functools
 import itertools
 from .utils import trans
