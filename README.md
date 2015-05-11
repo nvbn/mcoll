@@ -82,7 +82,7 @@ t.map(lambda x: x ** 2, range(5))  # => [0, 1, 4, 9, 16]
 t.flatten([[1, 2], [3, 4]])  # => [1, 2, 3, 4]
 ```
 
-Creation transformer from list of transformers:
+Create transformer from list of transformers:
 
 ```python
 transformer = t.into([t.map(lambda x: x ** 2),
