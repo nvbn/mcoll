@@ -86,8 +86,8 @@ Creation transformer from list of transformers:
 
 ```python
 transformer = t.into([t.map(lambda x: x ** 2),
-                         t.filter(lambda x: x % 2),
-                         t.reversed])
+                      t.filter(lambda x: x % 2),
+                      t.reversed])
 transformer(range(5))  # => [9, 1]
 ```
 
@@ -124,7 +124,8 @@ def inc_by(num, coll):
 inc_by(10, [1, 2])  # => [11, 12]
 inc_by(5)([1, 2])  # => [6, 7]
 t.into([t.flatten,
-        inc_by(3)], [[1, 2], [3, 4]])  # => [4, 5, 6, 7]
+        inc_by(3)],
+        [[1, 2], [3, 4]])  # => [4, 5, 6, 7]
 ```
 
 ## Licensed under MIT
