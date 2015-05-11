@@ -62,36 +62,36 @@ pip install mcoll
 
 ## Usage
 
-Available transformations and transformation factories:
+Available transformers and transformer factories:
 
-`dict_values`, `flatten`, `merge`, `dict_items`, `map`, `nth`, `dict_keys`, `merge_with`, `reversed`, `zip_with`, `filter`, `into`, `slice`, `zip`, `reduce`.
+`dict_values`, `flatten`, `merge`, `dict_items`, `map`, `nth`, `dict_keys`, `merge_with`, `reversed`, `zip_with`, `filter`, `into`, `slice`, `zip`, `reduce`, `sorted`.
 
-Use transformation factory:
+Use transformer factory:
 
 ```python
 from mcoll import t
 
-transformation = t.map(lambda x: x ** 2)
-transformation(range(5))  # => [0, 1, 4, 9, 16] 
+transformer = t.map(lambda x: x ** 2)
+transformer(range(5))  # => [0, 1, 4, 9, 16] 
 ```
 
-Use transformation:
+Use transformer:
 
 ```python
 t.map(lambda x: x ** 2, range(5))  # => [0, 1, 4, 9, 16]
 t.flatten([[1, 2], [3, 4]])  # => [1, 2, 3, 4]
 ```
 
-Creation transformation from list of transformations:
+Creation transformer from list of transformers:
 
 ```python
-transformation = t.into([t.map(lambda x: x ** 2),
+transformer = t.into([t.map(lambda x: x ** 2),
                          t.filter(lambda x: x % 2),
                          t.reversed])
-transformation(range(5))  # => [9, 1]
+transformer(range(5))  # => [9, 1]
 ```
 
-Just apply list of transformations:
+Just apply list of transformers:
 
 ```python
 t.into([t.dict_items,
@@ -102,7 +102,7 @@ t.into([t.dict_items,
         {9: 10, 11: 12, 13: 14})  # => 51
 ```
 
-Transformation is just a function, so you easily can create your own:
+transformer is just a function, so you easily can create your own:
 
 ```python
 to_lower = lambda coll: [x.lower() for x in coll]
@@ -111,7 +111,7 @@ t.into([t.dict_items,
         to_lower], {'A': 'B', 'C': 'D'})  # => ['c', 'd', 'a', 'b']
 ```
 
-Transformation factory is a bit complex concept, but you can create it easyly with
+transformer factory is a bit complex concept, but you can create it easyly with
 `trans` decorator:
 
 ```python
